@@ -51,6 +51,11 @@ function iniciar() {
                     console.log(valorCuotas.toFixed(2));
                     alert("Felecitaciones el valor de su compra es: " + valorFinal.toFixed(2) + "\nEl valor de cada cuota es de es: " + valorCuotas.toFixed(2));
                     break;
+                case 18:
+                    valorCuotas = (valorFinal * 1.20) / 18;
+                    console.log(valorCuotas.toFixed(2));
+                    alert("Felecitaciones el valor de su compra es: " + valorFinal.toFixed(2) + "\nEl valor de cada cuota es de es: " + valorCuotas.toFixed(2));
+                    break;
                 default:
                     console.log("Número de cutoas no válido")
                     alert("Recordá que podés hacerlo en 1, 3, 6, 9, 12 y 18 cuotas" + "\n Para salir ingrese 0")
