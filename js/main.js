@@ -1,10 +1,117 @@
-//Simulador para agregar iva, aplicar descuento y cuotificar el valor de una compra.
+//Declaro el carrito y el total de la compra
+let carritoCompra = [];
+let totalCompra = 0;
+//Creo los objetos de mi tienda
+const tiendaRopa = [
+    producto1 = {
+        id: 1,
+        nombre: 'pantalon',
+        precio: 1000,
+    },
+    producto2 = {
+        id: 2,
+        nombre: 'buzo',
+        precio: 1200,
+    },
+    producto3 = {
+        id: 3,
+        nombre: 'campera',
+        precio: 1800,
+    },
+    producto4 = {
+        id: 4,
+        nombre: 'remera',
+        precio: 800,
+    }
+];
+
+//Función que agrega producto al carrito
+function aniadirAlCarrito(producto) {
+
+    carritoCompra.push(producto);
+}
+
+/*function removerProducto(array, producto) {
+
+    array.splice(producto, 1)
+}
+removerProducto(carritoCompra, producto4) */
+//Calcula el total sumando el precio de todos los productos en el carrito
+function calcularTotal() {
+
+    for (let i = 0; i < carritoCompra.length; i++) {
+        totalCompra = totalCompra + carritoCompra[i].precio
+    }
+    return totalCompra.toFixed(2)
+}
+
+
+//Le pedimos que ingrese el nombre para saludarlo
+alert("Bienvenido a Moon Shop \n¡Lo estabamos esperando!")
+let nombre = prompt("Por favor ingresa tu nombre")
+
+
+//Se crea la función compraRopa que toma el nombre lo saluda y pide que ingrese el número del producto y lo agrega al carrito 
+function compraRopa() {
+
+    let productoElegido = prompt(`Hola ${nombre}. Porfavor ingresa el número del producto elegido
+    Seleccione uno de nuestros productos:
+    1. Pantalon
+    2. Buzo
+    3. Campera
+    4. Remera
+    `)
+
+    switch (parseInt(productoElegido)) {
+        case 1:
+            aniadirAlCarrito(producto1);
+            break;
+        case 2:
+            aniadirAlCarrito(producto2);
+            break;
+        case 3:
+            aniadirAlCarrito(producto3);
+
+            break;
+        case 4:
+            aniadirAlCarrito(producto4);
+            break;
+        default:
+            alert('Ingresó un caracter inválido')
+            compraRopa();
+            break;
+    }
+
+}
+compraRopa();
+
+//Declaramos las variables para seguir comprando
+let elijeMasProductos = prompt("Quiere seguir comprando ? Si o No")
+let confirmaMasProductos = elijeMasProductos.toUpperCase();
+
+//Se incorpora el ciclo while para poder agregar la cantidad que se desea al producto
+while (confirmaMasProductos == "SI") {
+    do {
+        compraRopa();
+
+        elijeMasProductos = prompt("Quiere seguir comprando ? Si o No")
+        confirmaMasProductos = elijeMasProductos.toUpperCase();
+
+    } while (confirmaMasProductos == "SI")
+}
+//Declaro la constante nombre que trae todos los nombres dentro de carrito
+const nombres = carritoCompra.map(carritoCompra => carritoCompra.nombre);
+//Por último inicializamos la función calcular total
+calcularTotal();
+iniciar();
+//Mostramos el total de la compra y los nombres del carrito
+console.log(`Su carrito contiene los siguientes productos: ${nombres}`);
+
+
+//Simulador para agregar iva, aplicar descuento y cuotificar el valor de la compra.
 function iniciar() {
 
-    alert("¡Bienvenido al simulador de compras!")
-
-    //Pedimos que ingrese el valor del producto
-    let valorDelProducto = parseInt(prompt("Ingrese el valor del producto" + "\n\nRecordá que tenemos 15% de descuento en compras mayores a 2500 pesos."));
+    let valorDelProducto = totalCompra;
     let valorFinal = 0;
 
     //Si no es un número se lo informamos mediante alert, en el caso que sea un número inicimaos la función promoDescuento.
@@ -69,7 +176,7 @@ function iniciar() {
     function comoAbona() {
         let debitoCredito = parseInt(prompt("¿Cómo desa abonar? \n\nIngrese 1 si desea abonar con efectivo o debito \nIngrese 2 si desea abonar con tarjeta de crédito"));
         if (debitoCredito == 1) {
-            alert("¡Pago exitoso! Disfrute su compra.");
+            alert("¡Pago exitoso! Disfrute su compra." + "Felecitaciones el valor de su compra es: " + valorFinal.toFixed(2));
 
         } else if (debitoCredito == 2) {
             let numeroDeCuotas = parseInt(prompt("Ingresa la cantidad de cuotas. \nRecargo por cuota: \n- 1, 3 y 12 cuotas sin interés \n- 6 cuotas 5% de interés \n- 9 cuotas 10% de interés \n- 18 cuotas 20% de interés"));
@@ -99,4 +206,3 @@ function iniciar() {
 }
 
 //Se inicia la función para comenzar el proceso
-iniciar()
