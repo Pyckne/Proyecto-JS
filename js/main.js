@@ -31,11 +31,6 @@ function aniadirAlCarrito(producto) {
     carritoCompra.push(producto);
 }
 
-/*function removerProducto(array, producto) {
-
-    array.splice(producto, 1)
-}
-removerProducto(carritoCompra, producto4) */
 //Calcula el total sumando el precio de todos los productos en el carrito
 function calcularTotal() {
 
@@ -101,15 +96,15 @@ while (confirmaMasProductos == "SI") {
 }
 //Declaro la constante nombre que trae todos los nombres dentro de carrito
 const nombres = carritoCompra.map(carritoCompra => carritoCompra.nombre);
-//Por último inicializamos la función calcular total
+//Por último inicializamos la función calcular total y posteriormente la 
 calcularTotal();
-iniciar();
+simuladorCoutificar();
 //Mostramos el total de la compra y los nombres del carrito
 console.log(`Su carrito contiene los siguientes productos: ${nombres}`);
 
 
 //Simulador para agregar iva, aplicar descuento y cuotificar el valor de la compra.
-function iniciar() {
+function simuladorCoutificar() {
 
     let valorDelProducto = totalCompra;
     let valorFinal = 0;
@@ -204,5 +199,3 @@ function iniciar() {
     }
 
 }
-
-//Se inicia la función para comenzar el proceso
