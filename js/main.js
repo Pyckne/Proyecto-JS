@@ -1,4 +1,4 @@
-//Declaro el carrito y el total de la compra
+/* //Declaro el carrito y el total de la compra
 let carritoCompra = [];
 let totalCompra = 0;
 //Creo los objetos de mi tienda
@@ -183,10 +183,10 @@ function simuladorCoutificar() {
         }
 
     }
-
-    /*Comprueba el valor ingresado para aplicar el descuento y al resultado le aplica la función iva.
-    Caundo finaliza el boolean asigna el valor más decuento e iva a nuevoValor e inicia la función comoAbona */
-    function promoDescuento() {
+ */
+/*Comprueba el valor ingresado para aplicar el descuento y al resultado le aplica la función iva.
+Caundo finaliza el boolean asigna el valor más decuento e iva a nuevoValor e inicia la función comoAbona */
+/* function promoDescuento() {
         let nuevoValor = 0;
         if (agregarIva(valorDelProducto) >= 2500) {
             nuevoValor = agregarIva(valorDelProducto) * 0.85;
@@ -198,4 +198,4 @@ function simuladorCoutificar() {
         comoAbona();
     }
 
-}
+} */
