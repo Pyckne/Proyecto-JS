@@ -1,8 +1,8 @@
 //El botón agregar inicia la función addproduct
 document.getElementById('cart').addEventListener('submit', addproduct);
 //Esta función toma el nombre y el valor ingresado en el formulario y los guarda en el localStorage
-function addproduct(x) {
-    x.preventDefault();
+function addproduct(e) {
+    e.preventDefault();
     let nombre = document.getElementById('nombre').value;
     let precio = document.getElementById('precio').value;
 
