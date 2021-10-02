@@ -1,0 +1,38 @@
+body {
+    background-color: rgb(137, 184, 206) !important;
+}
+
+header,
+.alert {
+    z-index: 100;
+}
+
+
+/* Main Background */
+
+.background-container {
+    background-image: url(../assets/background.jpg);
+    background-size: 100%;
+    width: 100%;
+    height: 60vh;
+}
+
+
+/* Alerts */
+
+.hide,
+.remove,
+.remove-all {
+    display: none;
+}
+
+
+/* Footer */
+
+#footer {
+    background-color: transparent;
+}
+
+#icon {
+    width: 10%;
+}

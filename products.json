@@ -1,0 +1,57 @@
+[{
+        "price": 1000,
+        "description": "Talle M",
+        "id": 1,
+        "title": "Pantalón",
+        "image": "./src/assets/img1.jpg"
+    },
+    {
+        "price": 1200,
+        "description": "Talle S",
+        "id": 2,
+        "title": "Buzo",
+        "image": "./src/assets/img2.jpg"
+    },
+    {
+        "price": 1800,
+        "description": "Talle M",
+        "id": 3,
+        "title": "Campera",
+        "image": "./src/assets/img3.jpg"
+    },
+    {
+        "price": 800,
+        "description": "Talle L",
+        "id": 4,
+        "title": "Remera",
+        "image": "./src/assets/img4.jpg"
+    },
+    {
+        "price": 1700,
+        "description": "Talle S",
+        "id": 5,
+        "title": "Campera",
+        "image": "./src/assets/img3.jpg"
+    },
+    {
+        "price": 950,
+        "description": "Talle M",
+        "id": 6,
+        "title": "Remera",
+        "image": "./src/assets/img4.jpg"
+    },
+    {
+        "price": 1000,
+        "description": "Talle XL",
+        "id": 7,
+        "title": "Remera",
+        "image": "./src/assets/img1.jpg"
+    },
+    {
+        "price": 950,
+        "description": "Talle XL",
+        "id": 8,
+        "title": "Remera",
+        "image": "./src/assets/img2.jpg"
+    }
+]
