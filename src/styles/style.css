@@ -17,6 +17,12 @@ header,
     height: 60vh;
 }
 
+.alert {
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 
 /* Alerts */
 
