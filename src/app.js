@@ -129,7 +129,7 @@ const insertarFooter = () => {
     $("#total").empty();
     //Mediante un boolean comprobamos si el carrito está vacio en caso de ser verdadero insertamos el texto correspondiente
     if (Object.keys(carrito).length === 0) {
-        footer.innerHTML = '<th scope="row" colspan="5">¡Su carrito se encuentra vacío!</th>';
+        $("#total").append(`<th scope="row" colspan="5">¡Su carrito se encuentra vacío!</th>`);
         return;
     }
     // Definimos la cantidad total de productos que va a ser igual a la suma de la columna cantidad de cada producto del carrito
