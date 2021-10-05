@@ -72,51 +72,6 @@
             <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">Contacto</div>
         </div>
     </main>
-    <!-- Templates -->
-    <!-- Card Temaplate-->
-    <template id="template-card">
-        <div class="col d-flex justify-content-center mb-4">
-          <div class="card shadow mb-1 rounded">
-            <img src="" alt="..." class="card-img-top">
-            <div class="card-body">
-              <h5>Titulo</h5>
-              <p class="product-description"></p>
-              <p class="product-price"></p>
-              <button class="btn btn-dark w-100">Agregar al carrito</button>
-            </div>
-          </div>
-        </div>
-      </template>
-    <!-- Carrito Temaplate -->
-    <template id="template-carrito">
-      <tr>
-        <th scope="row">id</th>
-        <td>Café</td>
-        <td>Descipcion</td>
-        <td>1</td>
-        <td>
-            <button class="btn btn-info btn-sm">
-                +
-            </button>
-            <button class="btn btn-danger btn-sm">
-                -
-            </button>
-        </td>
-        <td>$ <span>500</span></td>
-      </tr>
-    </template>
-    <!-- Footer Temaplate -->
-    <template id="template-footer">
-        <th scope="row" colspan="2">Total productos</th>
-        <td></td>
-        <td></td>
-        <td>
-            <button class="btn btn-danger btn-sm" id="vaciar-carrito">
-                vaciar todo
-            </button>
-        </td>
-        <td class="font-weight-bold">$ <span>5000</span></td>
-    </template>
 
     <!-- Footer -->
     <footer id="footer" class="mt-5 mb-3">
@@ -137,6 +92,7 @@
             </div>
         </div>
     </footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="./src/app.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 </body>

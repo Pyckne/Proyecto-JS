@@ -1,33 +1,23 @@
-//Guardamos los id de los contenedores donde se generará el html
-const cards = document.getElementById('cards');
-const items = document.getElementById('items');
-const footer = document.getElementById('total');
-//Guardamos los id de los templates que se insertarán en el html
-const templateCard = document.getElementById('template-card').content;
-const templateFooter = document.getElementById('template-footer').content;
-const templateCarrito = document.getElementById('template-carrito').content;
-//Fragmento que va a crear dinamicamente en el html en base a los templates
-const fragment = document.createDocumentFragment();
 //Creamos el carrito de compras
 let carrito = {};
 
 //Evento que carga el iniciar la página e inicia la promesaJson
-document.addEventListener('DOMContentLoaded', () => {
+$(document).ready(async() => {
     promesaJson();
     //Intenta obtener carrito en localStorage en caso de existir inicia la función insertarCarrito para cargar los productos
     if (localStorage.getItem('carrito')) {
         carrito = JSON.parse(localStorage.getItem('carrito'));
         insertarCarrito();
     }
-})
+});
 
 //Evento del boton Agregar al carrito
-cards.addEventListener('click', e => {
+$("#cards").click((e) => {
     aniadirAlCarrito(e);
 })
 
 //Evento de los botones del carrito + -
-items.addEventListener('click', e => {
+$("#items").click((e) => {
     btnMasMenos(e);
 })
 
@@ -45,22 +35,20 @@ const promesaJson = async() => {
 
 //Creamos dinámicamente los productos de la página
 const insertarCards = data => {
-    data.forEach(producto => {
-        //Con el querySelector tomamos el tag del html y le insertamos el valor correspondiente según el json
-        templateCard.querySelector('h5').textContent = producto.title;
-        templateCard.querySelector('.product-description').textContent = producto.description;
-        templateCard.querySelector('.product-price').textContent = producto.price;
-        templateCard.querySelector('img').setAttribute('src', producto.image);
-        //Generamos el Id tomado desde el json asignandole al boton agregar al carrito
-        templateCard.querySelector('.btn-dark').dataset.id = producto.id;
-        //Clona las cartas con cada item dentro del json
-        const clone = templateCard.cloneNode(true);
-        fragment.appendChild(clone);
-    })
+    data.forEach(product => {
 
-    //Inserta al html
-    cards.appendChild(fragment);
-}
+        $("#cards").append(`<div class="col d-flex justify-content-center mb-4">
+    <div class="card shadow mb-1 rounded">
+    <img src="${product.image}" alt="..." class="card-img-top">
+    <div class="card-body"><h5>${product.title}</h5>
+    <p class="product-description">${product.description}</p>
+    <p class="product-price">${product.price}</p>     
+    <button data-id="${product.id}"class="btn btn-dark w-100">Agregar al carrito</button>
+    </div>
+    </div>
+    </div>`);
+    })
+};
 
 /* Capturamos todos los clicks en las cartas y mediante un boolean tomamos 
 solo los que contengan la clase btn-dark en este caso el botón agregar al 
@@ -106,25 +94,27 @@ const infParaCarrito = obj => {
 //Crea dinamicamente el carrito
 const insertarCarrito = () => {
     //Limpia los productos del carrito para que spread operator no nos cree duplicados
-    items.innerHTML = '';
-    //Con el querySelector tomamos el tag del html y le insertamos el valor correspondiente acorde cada carrito
-    Object.values(carrito).forEach(producto => {
-        templateCarrito.querySelector('th').textContent = producto.id;
-        templateCarrito.querySelectorAll('td')[0].textContent = producto.title;
-        templateCarrito.querySelectorAll('td')[1].textContent = producto.description;
-        templateCarrito.querySelectorAll('td')[2].textContent = producto.cantidad;
-        //definimos el data set de los botones + -
-        templateCarrito.querySelector('.btn-info').dataset.id = producto.id;
-        templateCarrito.querySelector('.btn-danger').dataset.id = producto.id;
-        //Multiplicamos la cantidad de producto por el precio para obtener el total individual por item
-        templateCarrito.querySelector('span').textContent = producto.cantidad * producto.price;
-        //Clona las cartas con cada item dentro del json
-        const clone = templateCarrito.cloneNode(true);
-        fragment.appendChild(clone);
-    })
+    $("#items").empty();
+    //Insertamos dinamicamente los productos del carrito
+    Object.values(carrito).forEach(product => {
 
-    //Inserta al html
-    items.appendChild(fragment);
+        $("#items").append(`<tr>
+        <th scope="row">${product.id}</th>
+        <td>${product.title}</td>
+        <td>${product.description}</td>
+        <td>${product.price}</td>
+        <td>
+            <button data-id="${product.id}" class="btn btn-info btn-sm">
+                +
+            </button>
+            <button data-id="${product.id}" class="btn btn-danger btn-sm">
+                -
+            </button>
+        </td>
+        <td>$ <span>${product.cantidad * product.price}</span></td>
+      </tr>`);
+
+    })
 
     //Inicia la función para insertar el footer del carrito
     insertarFooter();
@@ -136,7 +126,7 @@ const insertarCarrito = () => {
 //Footer de la tabla donde se muestran los totales
 const insertarFooter = () => {
     //Limpia los productos del footer carrito para que spread operator no nos cree duplicados
-    footer.innerHTML = '';
+    $("#total").empty();
     //Mediante un boolean comprobamos si el carrito está vacio en caso de ser verdadero insertamos el texto correspondiente
     if (Object.keys(carrito).length === 0) {
         footer.innerHTML = '<th scope="row" colspan="5">¡Su carrito se encuentra vacío!</th>';
@@ -147,16 +137,18 @@ const insertarFooter = () => {
     //Definimos el precio final al igual que el paso anterior solo que en este caso multiplicamos la cantidad por el precio de cada producto del carrito
     const totalprices = Object.values(carrito).reduce((i, { cantidad, price }) => i + cantidad * price, 0);
     //Inserta el total del producto
-    templateFooter.querySelectorAll('td')[1].textContent = totalProductos;
-    templateFooter.querySelector('span').textContent = totalprices;
-    //Al limpiar el html cada que se ejecuta hay que clonar el fragmento y crearlo nuevamente
-    const clone = templateFooter.cloneNode(true);
-    fragment.appendChild(clone);
-    footer.appendChild(fragment);
-    //Definimos el botón vaciar toma el id vaciar-carrito
-    const btnVaciar = document.getElementById('vaciar-carrito');
+    $("#total").append(`<th scope="row" colspan="2">Total productos</th>
+        <td></td>
+        <td>${totalProductos}</td>
+        <td>
+            <button class="btn btn-danger btn-sm" id="vaciar-carrito">
+                vaciar todo
+            </button>
+        </td>
+        <td class="font-weight-bold">$ <span>${totalprices}</span></td>`);
+
     //Evento que toma cuando el usuario hace click en el boton
-    btnVaciar.addEventListener('click', () => {
+    $("#vaciar-carrito").click(() => {
         //Vacia el carrito e inicia la función insertarCarrito para que identifique que no existen objs y los elimine el html
         carrito = {};
         insertarCarrito();
@@ -169,6 +161,7 @@ const insertarFooter = () => {
         alert.classList.remove('remove-all')
     })
 }
+
 
 //Botón obtenido por evento click en botones del carrito + -
 const btnMasMenos = e => {
@@ -209,115 +202,3 @@ const btnMasMenos = e => {
 
     e.stopPropagation();
 }
-
-
-
-
-//Me queda agregar un boton de pagar y refactorizar las funciones de modo de pago, cuotificar y descuento.
-
-/* //Total de la compra
-let totalCompra = 0;
-
-//Por último inicializamos la función calcular total y posteriormente la 
-calcularTotal();
-simuladorCoutificar();
-//Mostramos el total de la compra y los nombres del carrito
-console.log(`Su carrito contiene los siguientes productos: ${nombres}`);
-
-
-//Simulador para agregar iva, aplicar descuento y cuotificar el valor de la compra.
-function simuladorCoutificar() {
-
-    let valorDelProducto = totalCompra;
-    let valorFinal = 0;
-
-    //Si no es un número se lo informamos mediante alert, en el caso que sea un número inicimaos la función promoDescuento.
-    if (isNaN(valorDelProducto)) {
-        alert("El dato ingresado es invalido o no es un número");
-    } else {
-        promoDescuento(valorDelProducto);
-    }
-
-    //Es inicializada por promoDescuento y agrega iva al valor del producto.
-    function agregarIva(valorDelProducto) {
-        let valorConIva = valorDelProducto * 1.21;
-        console.log("El valor más iva es: " + valorConIva.toFixed(2));
-        return valorConIva;
-    }
-
-    //Se inicia por la función comoAbona y en base a la cantidad de cuotas ingresadas le agrega una recarga tomando como valor del producto la variable valorFinal.
-    function cuotificarValor(numeroDeCuotas) {
-        //Ciclo while para aplicar cuotas
-        let valorCuotas = 0;
-        while (numeroDeCuotas != 0) {
-
-            switch (numeroDeCuotas) {
-                case 1:
-                    alert("Felecitaciones el valor de su compra es: " + valorFinal.toFixed(2));
-                    break;
-                case 3:
-                    valorCuotas = valorFinal / 3;
-                    console.log(valorCuotas.toFixed(2));
-                    alert("Felecitaciones el valor de su compra es: " + valorFinal.toFixed(2) + "\nEl valor de cada cuota es de es: " + valorCuotas.toFixed(2));
-                    break;
-                case 6:
-                    valorCuotas = (valorFinal * 1.05) / 6;
-                    console.log(valorCuotas.toFixed(2));
-                    alert("Felecitaciones el valor de su compra es: " + valorFinal.toFixed(2) + "\nEl valor de cada cuota es de es: " + valorCuotas.toFixed(2));
-                    break;
-                case 9:
-                    valorCuotas = (valorFinal * 1.10) / 9;
-                    console.log(valorCuotas.toFixed(2));
-                    alert("Felecitaciones el valor de su compra es: " + valorFinal.toFixed(2) + "\nEl valor de cada cuota es de es: " + valorCuotas.toFixed(2));
-                    break;
-                case 12:
-                    valorCuotas = valorFinal / 12;
-                    console.log(valorCuotas.toFixed(2));
-                    alert("Felecitaciones el valor de su compra es: " + valorFinal.toFixed(2) + "\nEl valor de cada cuota es de es: " + valorCuotas.toFixed(2));
-                    break;
-                case 18:
-                    valorCuotas = (valorFinal * 1.20) / 18;
-                    console.log(valorCuotas.toFixed(2));
-                    alert("Felecitaciones el valor de su compra es: " + valorFinal.toFixed(2) + "\nEl valor de cada cuota es de es: " + valorCuotas.toFixed(2));
-                    break;
-                default:
-                    console.log("Número de cutoas no válido")
-                    alert("Recordá que podés hacerlo en 1, 3, 6, 9, 12 y 18 cuotas" + "\n Para salir ingrese 0")
-                    break;
-            }
-            numeroDeCuotas = parseInt(prompt("Para salir ingrese 0" + "\n\nSi quiere cambiar la cantidad de cuotas recuerde que puede hacerlo en 1, 3, 6, 9, 12 y 18 cuotas"));
-        }
-    }
-
-    //La inicializa promoDescuento una vez que aplica iva al valor del producto y le consulta al usuario como desea abona, en caso de selecionar Crédito incia la función cuotificar valor
-    function comoAbona() {
-        let debitoCredito = parseInt(prompt("¿Cómo desa abonar? \n\nIngrese 1 si desea abonar con efectivo o debito \nIngrese 2 si desea abonar con tarjeta de crédito"));
-        if (debitoCredito == 1) {
-            alert("¡Pago exitoso! Disfrute su compra." + "Felecitaciones el valor de su compra es: " + valorFinal.toFixed(2));
-
-        } else if (debitoCredito == 2) {
-            let numeroDeCuotas = parseInt(prompt("Ingresa la cantidad de cuotas. \nRecargo por cuota: \n- 1, 3 y 12 cuotas sin interés \n- 6 cuotas 5% de interés \n- 9 cuotas 10% de interés \n- 18 cuotas 20% de interés"));
-            cuotificarValor(numeroDeCuotas);
-
-        } else {
-            debitoCredito = parseInt(prompt("Ingreso un número o caracter inválido \n\nIngrese 1 si desea abonar con efectivo o debito \nIngrese 2 si desea abonar con tarjeta de crédito"));
-            comoAbona(debitoCredito)
-        }
-
-    }
- */
-/*Comprueba el valor ingresado para aplicar el descuento y al resultado le aplica la función iva.
-Caundo finaliza el boolean asigna el valor más decuento e iva a nuevoValor e inicia la función comoAbona */
-/* function promoDescuento() {
-        let nuevoValor = 0;
-        if (agregarIva(valorDelProducto) >= 2500) {
-            nuevoValor = agregarIva(valorDelProducto) * 0.85;
-        } else {
-            nuevoValor = agregarIva(valorDelProducto);
-        }
-        alert("El valor total es: " + nuevoValor.toFixed(2));
-        valorFinal = nuevoValor;
-        comoAbona();
-    }
-
-} */
