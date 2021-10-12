@@ -24,13 +24,13 @@ $("#items").click((e) => {
 /*Promesa para obtener los datos del archivo products.json en caso de conseguirlo inicia la función 
 insertarCarrito para crear las cards con los datos obtenidos en caso de no poder imprime por consola */
 const promesaJson = async() => {
-    try {
-        const res = await fetch('products.json');
-        const data = await res.json();
-        insertarCards(data);
-    } catch (error) {
-        console.log(error);
-    }
+    const Testjson = "src/data/products.json";
+    $.getJSON(Testjson, function(respuesta, estado) {
+        if (estado === "success") {
+            const data = respuesta;
+            insertarCards(data);
+        }
+    })
 }
 
 //Creamos dinámicamente los productos de la página
@@ -58,12 +58,9 @@ const aniadirAlCarrito = e => {
         infParaCarrito(e.target.parentElement)
 
         //Alerta indicando que se agregó el producto al carrito
-        const alert = document.querySelector('.alert')
-
-        setTimeout(function() {
-            alert.classList.add('hide');
-        }, 700)
-        alert.classList.remove('hide');
+        $('.hide').slideDown(700, function() {
+            $('.hide').fadeOut(700);
+        });
 
     }
     e.stopPropagation();
@@ -102,7 +99,7 @@ const insertarCarrito = () => {
         <th scope="row">${product.id}</th>
         <td>${product.title}</td>
         <td>${product.description}</td>
-        <td>${product.price}</td>
+        <td>${product.cantidad}</td>
         <td>
             <button data-id="${product.id}" class="btn btn-info btn-sm">
                 +
@@ -153,12 +150,9 @@ const insertarFooter = () => {
         carrito = {};
         insertarCarrito();
         //Alerta indicando que se eliminaron todos los productos del carrito
-        const alert = document.querySelector('.remove-all')
-
-        setTimeout(function() {
-            alert.classList.add('remove-all')
-        }, 700)
-        alert.classList.remove('remove-all')
+        $('.remove-all').slideDown(700, function() {
+            $('.remove-all').fadeOut(700);
+        });
     })
 }
 
@@ -175,12 +169,9 @@ const btnMasMenos = e => {
         carrito[e.target.dataset.id] = {...producto };
         insertarCarrito();
         //Alerta indicando que se agregó el producto al carrito
-        const alert = document.querySelector('.alert')
-
-        setTimeout(function() {
-            alert.classList.add('hide');
-        }, 700)
-        alert.classList.remove('hide');
+        $('.hide').slideDown(700, function() {
+            $('.hide').fadeOut(700);
+        });
     } else if (e.target.classList.contains('btn-danger')) {
         //La constante producto que toma como target el id del producto y resta -1 a la cantidad
         const producto = carrito[e.target.dataset.id]
@@ -192,12 +183,9 @@ const btnMasMenos = e => {
         }
         insertarCarrito();
         //Alerta indicando que se eliminó el producto del carrito
-        const alert = document.querySelector('.remove')
-
-        setTimeout(function() {
-            alert.classList.add('remove')
-        }, 700)
-        alert.classList.remove('remove')
+        $('.remove').slideDown(700, function() {
+            $('.remove').fadeOut(700);
+        });
     }
 
     e.stopPropagation();
