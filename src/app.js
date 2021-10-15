@@ -122,8 +122,9 @@ const insertarCarrito = () => {
 
 //Footer de la tabla donde se muestran los totales
 const insertarFooter = () => {
-    //Limpia los productos del footer carrito para que spread operator no nos cree duplicados
+    //Limpia los productos del footer carrito para que spread operator no nos cree duplicados y elimina el botón de pagar en caso de ser creado
     $("#total").empty();
+    $('#payment').empty();
     //Mediante un boolean comprobamos si el carrito está vacio en caso de ser verdadero insertamos el texto correspondiente
     if (Object.keys(carrito).length === 0) {
         $("#total").append(`<th scope="row" colspan="5">¡Su carrito se encuentra vacío!</th>`);
@@ -143,6 +144,14 @@ const insertarFooter = () => {
             </button>
         </td>
         <td class="font-weight-bold">$ <span>${totalprices}</span></td>`);
+    //Inserta el botón pagar
+    $("#payment").append(`<th scope="row" colspan="2"></th>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td class="font-weight-bold"><button class="btn btn-success btn-sm" id="vaciar-carrito">
+        Pagar
+    </button> </td>`)
 
     //Evento que toma cuando el usuario hace click en el boton
     $("#vaciar-carrito").click(() => {
