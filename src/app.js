@@ -21,6 +21,13 @@ $("#items").click((e) => {
     btnMasMenos(e);
 })
 
+//Evento del filtro
+$(document).ready(() => {
+    searchBtn(".search", ".card-container")
+})
+
+
+
 /*Promesa para obtener los datos del archivo products.json en caso de conseguirlo inicia la función 
 insertarCarrito para crear las cards con los datos obtenidos en caso de no poder imprime por consola */
 const promesaJson = async() => {
@@ -37,7 +44,7 @@ const promesaJson = async() => {
 const insertarCards = data => {
     data.forEach(product => {
 
-        $("#cards").append(`<div class="col d-flex justify-content-center mb-4">
+        $("#cards").append(`<div class="card-container col d-flex justify-content-center mb-4">
     <div class="card shadow mb-1 rounded">
     <img src="${product.image}" alt="..." class="card-img-top">
     <div class="card-body"><h5>${product.title}</h5>
@@ -198,4 +205,20 @@ const btnMasMenos = e => {
     }
 
     e.stopPropagation();
+}
+
+//Función que filtra las cards agregando o quitando display none
+function searchBtn(input, selected) {
+
+    document.addEventListener("keyup", (e) => {
+        if (e.target.matches(input)) {
+            document.querySelectorAll(selected).forEach(element =>
+                //Para que sea Case sensitive le agregue el toLowerCase en ambos casos
+                element.textContent.toLowerCase().includes(e.target.value.toLowerCase()) ?
+                element.classList.remove("d-none") :
+                element.classList.add("d-none")
+            );
+        }
+    })
+
 }
