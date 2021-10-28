@@ -156,7 +156,7 @@ const insertarFooter = () => {
         <td></td>
         <td></td>
         <td></td>
-        <td class="font-weight-bold"><button class="btn btn-success btn-sm" id="vaciar-carrito">
+        <td class="font-weight-bold"><button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" id="vaciar-carrito">
         Pagar
     </button> </td>`)
 
