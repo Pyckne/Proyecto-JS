@@ -140,7 +140,7 @@ const insertarFooter = () => {
     // Definimos la cantidad total de productos que va a ser igual a la suma de la columna cantidad de cada producto del carrito
     const totalProductos = Object.values(carrito).reduce((i, { cantidad }) => i + cantidad, 0);
     //Definimos el precio final al igual que el paso anterior solo que en este caso multiplicamos la cantidad por el precio de cada producto del carrito
-    const totalprices = Object.values(carrito).reduce((i, { cantidad, price }) => i + cantidad * price, 0);
+    const totalPrices = Object.values(carrito).reduce((i, { cantidad, price }) => i + cantidad * price, 0);
     //Inserta el total del producto
     $("#total").append(`<th scope="row" colspan="2">Total productos</th>
         <td></td>
@@ -150,15 +150,16 @@ const insertarFooter = () => {
                 vaciar todo
             </button>
         </td>
-        <td class="font-weight-bold">$ <span>${totalprices}</span></td>`);
+        <td class="font-weight-bold">$ <span>${totalPrices}</span></td>`);
+
     //Inserta el botón pagar
     $("#payment").append(`<th scope="row" colspan="2"></th>
         <td></td>
         <td></td>
         <td></td>
-        <td class="font-weight-bold"><button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" id="vaciar-carrito">
+        <td class="font-weight-bold"><button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#paymentModal" id="vaciar-carrito">
         Pagar
-    </button> </td>`)
+    </button> </td>`);
 
     //Evento que toma cuando el usuario hace click en el boton
     $("#vaciar-carrito").click(() => {

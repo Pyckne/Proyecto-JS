@@ -70,19 +70,62 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModal" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Finalizar Compra</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
-                            ...
+                        <div class="modal-body" id="modalBody">
+                            <div class="Prueba">
+                                <div class="d-flex justify-content-around">
+                                    <h5>¿Qué prefiere?</h5>
+                                    <button type="button" class="btn btn-outline-danger">Retirar en el local</button>
+                                    <button type="button" class="btn btn-outline-info">Recibir en domicilio</button>
+                                </div>
+                                <div>
+                                    <div class="d-flex flex-wrap justify-content-between p-4">
+                                        <input class="mb-1" type="text" name="name" placeholder="Nombre" required>
+                                        <input class="mb-1" type="text" name="surname" placeholder="Apellido" required>
+                                        <input class="mb-1" type="number" name="phone" placeholder="Teléfono" required>
+                                        <input class="mb-1" type="text" name="mail" placeholder="Email" required>
+                                    </div>
+                                    <div class="d-flex flex-wrap justify-content-between p-4">
+                                        <input class="mb-1" type="text" name="dirección" placeholder="Dirección" required>
+                                        <input class="mb-1" type="number" name="cp" placeholder="Código postal" required>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-wrap justify-content-around">
+                                    <h5 class="w-50">Elige un método de pago:</h5>
+                                    <select class="w-50" name="pago" id="">
+                                        <option value="1">Tarjeta de crédito</option>
+                                        <option value="2">Tarjeta de débito</option>
+                                        <option value="3">Transferencia bancaria</option>
+                                    </select>
+                                </div>
+                                <div class="d-flex justify-content-around" id="cuotify">
+                                    <h5 class="w-50">Cantidad de cuotas:</h5>
+                                    <select class="w-50">
+                                        <option value="1">1</option>
+                                        <option value="2">3</option>
+                                        <option value="3">6</option>
+                                        <option value="3">9</option>
+                                        <option value="3">12</option>
+                                        <option value="3">18</option>
+                                    </select>
+                                </div>
+                                <div class="d-flex flex-wrap justify-content-between">
+                                    <h5>CBU:</h5>
+                                    <p class="h5">001111010100101</p>
+                                    <h5>Alias:</h5>
+                                    <p class="h5">poroto.casa.calabaza</p>
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-success">Confirmar compra</button>
                         </div>
                     </div>
                 </div>
@@ -97,10 +140,11 @@
 
     </footer>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
     <script src="./src/dom/header.js"></script>
+    <script src="./src/dom/modal.js"></script>
     <script src="./src/dom/footer.js"></script>
     <script src="./src/app.js" type="module"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 </body>
 
 </html>
