@@ -86,55 +86,40 @@
                                 </div>
                                 <div>
                                     <div class="d-flex flex-wrap justify-content-center pt-4" id="local-form">
-                                        <input class="mb-1" type="text" name="name" placeholder="Nombre" required>
-                                        <input class="mb-1" type="text" name="surname" placeholder="Apellido" required>
-                                        <input class="mb-1" type="number" name="phone" placeholder="Teléfono" required>
-                                        <input class="mb-1" type="text" name="mail" placeholder="Email" required>
+
                                     </div>
-                                    <div class="d-none d-flex flex-wrap justify-content-center pb-4" id="home-form">
-                                        <input class="mb-1" type="text" name="adress" placeholder="Dirección">
-                                        <input class="mb-1" type="number" name="cp" placeholder="Código postal">
-                                        <input class="mb-1" type="text" name="city" placeholder="Localidad">
-                                        <input class="mb-1" type="text" name="province" placeholder="Provincia">
+                                    <div class="d-flex flex-wrap justify-content-center pb-4" id="home-form">
+
                                     </div>
                                 </div>
                                 <div class="d-flex flex-wrap justify-content-around mb-2 mt-1">
                                     <h5 class="w-50">Elige un método de pago:</h5>
-                                    <select class="w-50" name="pago" id="method">
-                                        <option value="1">Tarjeta de crédito</option>
-                                        <option value="2">Tarjeta de débito</option>
-                                        <option value="3">Transferencia bancaria</option>
+                                    <select class="w-50" id="method">
+                                        <option selected="selected" class="df">¡Haz click aquí!</option>
+                                        <option class="cc">Tarjeta de crédito</option>
+                                        <option class="dc">Tarjeta de débito</option>
+                                        <option class="bt">Transferencia bancaria</option>
                                     </select>
                                 </div>
-                                <div class="d-flex justify-content-around mb-2" id="cuotify">
-                                    <h5 class="w-50">Cantidad de cuotas:</h5>
-                                    <select class="w-50">
-                                        <option value="1" selected>1</option>
-                                        <option value="2">3</option>
-                                        <option value="3">6</option>
-                                        <option value="3">9</option>
-                                        <option value="3">12</option>
-                                        <option value="3">18</option>
-                                    </select>
+                                <div class="d-flex flex-wrap justify-content-around mb-2" id="cuotify">
+
                                 </div>
-                                <div class="d-flex flex-wrap justify-content-between mb-2">
-                                    <h5>CBU:</h5>
-                                    <p class="h5">001111010100101</p>
-                                    <h5>Alias:</h5>
-                                    <p class="h5">poroto.casa.calabaza</p>
+                                <div class="d-none d-flex flex-wrap justify-content-around mb-2" id="total-cuotify">
+
+                                </div>
+
+                                <div class="d-flex flex-wrap justify-content-between mb-2" id="bank-transfer">
+
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer d-flex flex-wrap justify-content-between">
-                            <div id="totalPayment"></div>
-                            <button type="button" class="btn btn-success">Confirmar compra</button>
+                            <div id="total-payment"></div>
+                            <button type="button" class="btn btn-outline-success">Confirmar compra</button>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">Contacto</div>
-        </div>
     </main>
 
     <!-- Footer -->

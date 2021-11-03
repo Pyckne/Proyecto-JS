@@ -26,6 +26,17 @@ $("#local-home").click((e) => {
     localOrHome(e);
 });
 
+//Evento de método de pago
+$('#method').change((e) => {
+    paymentMethod(e);
+});
+
+//Evento del selector de cuotas
+$('#cuotify').change(() => {
+    const cuot = $('#cuotify option:selected').text();
+    console.log(parseInt(cuot));
+})
+
 //Evento del filtro
 $(document).ready(() => {
     searchBtn(".search", ".card-container")
@@ -96,7 +107,7 @@ const infParaCarrito = obj => {
     /* Mediante el spread operator adquirimos la información del producto y agregamos al carrito 
     en caso de que no exista se crea y en el caso contrario se sobrescribe agregando el producto*/
     carrito[producto.id] = {...producto };
-    //Inicia la función insertarCarrito()
+    //Inicia la función insertarCarrito
     insertarCarrito();
 }
 
@@ -137,7 +148,6 @@ const insertarFooter = () => {
     //Limpia los productos del footer carrito para que spread operator no nos cree duplicados y elimina el botón de pagar en caso de ser creado
     $("#total").empty();
     $('#payment').empty();
-    $('#totalPayment').empty();
     //Mediante un boolean comprobamos si el carrito está vacio en caso de ser verdadero insertamos el texto correspondiente
     if (Object.keys(carrito).length === 0) {
         $("#total").append(`<th scope="row" colspan="5">¡Su carrito se encuentra vacío!</th>`);
@@ -178,14 +188,38 @@ const insertarFooter = () => {
         });
     })
 
-    $('#totalPayment').append(`<th scope="row" colspan="2">Total a pagar:</th>
+    footerPayment(totalPrices);
+    totalCuotify(totalPrices);
+
+}
+
+//Función que inserta el footer de pago total
+const footerPayment = (totalPrices) => {
+    $('#total-payment').empty();
+
+    $('#total-payment').append(`<th scope="row" colspan="2">Total a pagar:</th>
         <td></td>
         <td></td>
         <td>
         </td>
         <td class="font-weight-bold">$ <span>${totalPrices}</span></td>`);
+
 }
 
+//Valor total cuotificado
+const totalCuotify = (totalPrices) => {
+    $('#total-cuotify').empty();
+    $('#total-cuotify').append(`<h5 class="w-50">Valor de la/s cuota/s:</h5>
+        <p class="h5 w-50">${totalPrices}</p>`);
+
+    $('#cuotify').change(() => {
+        $('#total-cuotify').empty();
+        const cuot = $('#cuotify option:selected').text();
+        parseInt(cuot);
+        $('#total-cuotify').append(`<h5 class="w-50">Valor de la/s cuota/s:</h5>
+        <p class="h5 w-50">${totalPrices / cuot}</p>`);
+    })
+}
 
 //Botón obtenido por evento click en botones del carrito + -
 const btnMasMenos = e => {
@@ -206,7 +240,7 @@ const btnMasMenos = e => {
         //La constante producto que toma como target el id del producto y resta -1 a la cantidad
         const producto = carrito[e.target.dataset.id]
         producto.cantidad--;
-        //En este caso agregamos otro boolean en caso de que la cantidad del producto sea igual a 0 lo eliminamos del producto
+        //Boolean en caso de que la cantidad del producto sea igual a 0 lo eliminamos del carrito
         if (producto.cantidad === 0) {
 
             delete carrito[e.target.dataset.id];
@@ -237,12 +271,64 @@ function searchBtn(input, selected) {
 
 }
 
-//Agrega o quita el display none a cuando se selecciona retirar en local o recibirlo en domicilio
+//Agrega o quita inputs a cuando se selecciona retirar en local o recibirlo en domicilio
 const localOrHome = (e) => {
     if (e.target.classList.contains('local')) {
-        $('#home-form').addClass("d-none");
+        $('#home-form').empty();
+        $('#local-form').empty();
+        $('#local-form').append(`<input class="mb-1" type="text" name="name" placeholder="Nombre" required>
+        <input class="mb-1" type="text" name="surname" placeholder="Apellido" required>
+        <input class="mb-1" type="number" name="phone" placeholder="Teléfono" required>
+        <input class="mb-1" type="text" name="mail" placeholder="Email" required>`);
 
     } else if (e.target.classList.contains('home')) {
-        $('#home-form').removeClass("d-none");
+        $('#local-form').empty();
+        $('#home-form').empty();
+        $('#local-form').append(`<input class="mb-1" type="text" name="name" placeholder="Nombre" required>
+        <input class="mb-1" type="text" name="surname" placeholder="Apellido" required>
+        <input class="mb-1" type="number" name="phone" placeholder="Teléfono" required>
+        <input class="mb-1" type="text" name="mail" placeholder="Email" required>`);
+        $('#home-form').append(`<input class="mb-1" type="text" name="adress" placeholder="Dirección">
+        <input class="mb-1" type="number" name="cp" placeholder="Código postal">
+        <input class="mb-1" type="text" name="city" placeholder="Localidad">
+        <input class="mb-1" type="text" name="province" placeholder="Provincia">`);
     }
 }
+
+//Agrega o quita las opciones deacuerdo con el método de pago seleccionado
+const paymentMethod = () => {
+    $('#method option:selected').text(function() {
+        switch ($(this).text()) {
+            case 'Tarjeta de crédito':
+                $('#bank-transfer').empty();
+                $('#cuotify').append(`<h5 class="w-50">Cantidad de cuotas:</h5>
+                <select class="w-50" id="cuotify-options">
+                    <option selected>1</option>
+                    <option>3</option>
+                    <option>6</option>
+                    <option>9</option>
+                    <option>12</option>
+                    <option>18</option>
+                </select>`);
+                $('#total-cuotify').removeClass('d-none');
+                break;
+            case 'Tarjeta de débito':
+                $('#cuotify').empty();
+                $('#total-cuotify').addClass('d-none');
+                $('#bank-transfer').empty();
+                break;
+            case 'Transferencia bancaria':
+                $('#cuotify').empty();
+                $('#total-cuotify').addClass('d-none');
+                $('#bank-transfer').append(`<h5>CBU:</h5>
+                <p class="h5">001111010100101</p>
+                <h5>Alias:</h5>
+                <p class="h5">poroto.casa.calabaza</p>`);
+                break;
+
+            default:
+                break;
+        }
+
+    })
+};
