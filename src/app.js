@@ -14,12 +14,17 @@ $(document).ready(async() => {
 //Evento del boton Agregar al carrito
 $("#cards").click((e) => {
     aniadirAlCarrito(e);
-})
+});
 
 //Evento de los botones del carrito + -
 $("#items").click((e) => {
     btnMasMenos(e);
-})
+});
+
+//Evento del formulario de payment
+$("#local-home").click((e) => {
+    localOrHome(e);
+});
 
 //Evento del filtro
 $(document).ready(() => {
@@ -132,6 +137,7 @@ const insertarFooter = () => {
     //Limpia los productos del footer carrito para que spread operator no nos cree duplicados y elimina el botón de pagar en caso de ser creado
     $("#total").empty();
     $('#payment').empty();
+    $('#totalPayment').empty();
     //Mediante un boolean comprobamos si el carrito está vacio en caso de ser verdadero insertamos el texto correspondiente
     if (Object.keys(carrito).length === 0) {
         $("#total").append(`<th scope="row" colspan="5">¡Su carrito se encuentra vacío!</th>`);
@@ -171,6 +177,13 @@ const insertarFooter = () => {
             $('.remove-all').fadeOut(700);
         });
     })
+
+    $('#totalPayment').append(`<th scope="row" colspan="2">Total a pagar:</th>
+        <td></td>
+        <td></td>
+        <td>
+        </td>
+        <td class="font-weight-bold">$ <span>${totalPrices}</span></td>`);
 }
 
 
@@ -222,4 +235,14 @@ function searchBtn(input, selected) {
         }
     })
 
+}
+
+//Agrega o quita el display none a cuando se selecciona retirar en local o recibirlo en domicilio
+const localOrHome = (e) => {
+    if (e.target.classList.contains('local')) {
+        $('#home-form').addClass("d-none");
+
+    } else if (e.target.classList.contains('home')) {
+        $('#home-form').removeClass("d-none");
+    }
 }

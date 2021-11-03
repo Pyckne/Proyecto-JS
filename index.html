@@ -79,35 +79,37 @@
                         </div>
                         <div class="modal-body" id="modalBody">
                             <div class="Prueba">
-                                <div class="d-flex justify-content-around">
+                                <div class="d-flex justify-content-around" id="local-home">
                                     <h5>¿Qué prefiere?</h5>
-                                    <button type="button" class="btn btn-outline-danger">Retirar en el local</button>
-                                    <button type="button" class="btn btn-outline-info">Recibir en domicilio</button>
+                                    <button type="button" class="btn btn-outline-danger local" id="local">Retirar en el local</button>
+                                    <button type="button" class="btn btn-outline-info home" id="home">Recibir en domicilio</button>
                                 </div>
                                 <div>
-                                    <div class="d-flex flex-wrap justify-content-between p-4">
+                                    <div class="d-flex flex-wrap justify-content-center pt-4" id="local-form">
                                         <input class="mb-1" type="text" name="name" placeholder="Nombre" required>
                                         <input class="mb-1" type="text" name="surname" placeholder="Apellido" required>
                                         <input class="mb-1" type="number" name="phone" placeholder="Teléfono" required>
                                         <input class="mb-1" type="text" name="mail" placeholder="Email" required>
                                     </div>
-                                    <div class="d-flex flex-wrap justify-content-between p-4">
-                                        <input class="mb-1" type="text" name="dirección" placeholder="Dirección" required>
-                                        <input class="mb-1" type="number" name="cp" placeholder="Código postal" required>
+                                    <div class="d-none d-flex flex-wrap justify-content-center pb-4" id="home-form">
+                                        <input class="mb-1" type="text" name="adress" placeholder="Dirección">
+                                        <input class="mb-1" type="number" name="cp" placeholder="Código postal">
+                                        <input class="mb-1" type="text" name="city" placeholder="Localidad">
+                                        <input class="mb-1" type="text" name="province" placeholder="Provincia">
                                     </div>
                                 </div>
-                                <div class="d-flex flex-wrap justify-content-around">
+                                <div class="d-flex flex-wrap justify-content-around mb-2 mt-1">
                                     <h5 class="w-50">Elige un método de pago:</h5>
-                                    <select class="w-50" name="pago" id="">
+                                    <select class="w-50" name="pago" id="method">
                                         <option value="1">Tarjeta de crédito</option>
                                         <option value="2">Tarjeta de débito</option>
                                         <option value="3">Transferencia bancaria</option>
                                     </select>
                                 </div>
-                                <div class="d-flex justify-content-around" id="cuotify">
+                                <div class="d-flex justify-content-around mb-2" id="cuotify">
                                     <h5 class="w-50">Cantidad de cuotas:</h5>
                                     <select class="w-50">
-                                        <option value="1">1</option>
+                                        <option value="1" selected>1</option>
                                         <option value="2">3</option>
                                         <option value="3">6</option>
                                         <option value="3">9</option>
@@ -115,7 +117,7 @@
                                         <option value="3">18</option>
                                     </select>
                                 </div>
-                                <div class="d-flex flex-wrap justify-content-between">
+                                <div class="d-flex flex-wrap justify-content-between mb-2">
                                     <h5>CBU:</h5>
                                     <p class="h5">001111010100101</p>
                                     <h5>Alias:</h5>
@@ -123,8 +125,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <div class="modal-footer d-flex flex-wrap justify-content-between">
+                            <div id="totalPayment"></div>
                             <button type="button" class="btn btn-success">Confirmar compra</button>
                         </div>
                     </div>
