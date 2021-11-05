@@ -1,5 +1,6 @@
 //Creamos el carrito de compras
 let carrito = {};
+let compraFinalizada = {};
 
 //Evento que carga el iniciar la página e inicia la promesaJson
 $(document).ready(async() => {
@@ -11,18 +12,23 @@ $(document).ready(async() => {
     }
 });
 
+//Evento del filtro
+$(document).ready(() => {
+    searchBtn('.search', '.card-container')
+})
+
 //Evento del boton Agregar al carrito
-$("#cards").click((e) => {
+$('#cards').click((e) => {
     aniadirAlCarrito(e);
 });
 
 //Evento de los botones del carrito + -
-$("#items").click((e) => {
+$('#items').click((e) => {
     btnMasMenos(e);
 });
 
 //Evento del formulario de payment
-$("#local-home").click((e) => {
+$('#local-home').click((e) => {
     localOrHome(e);
 });
 
@@ -31,25 +37,18 @@ $('#method').change((e) => {
     paymentMethod(e);
 });
 
-//Evento del selector de cuotas
-$('#cuotify').change(() => {
-    const cuot = $('#cuotify option:selected').text();
-    console.log(parseInt(cuot));
+//Evento de confrimar compra
+$('#submit-payment').click((e) => {
+    finalizarCompra(e);
 })
-
-//Evento del filtro
-$(document).ready(() => {
-    searchBtn(".search", ".card-container")
-})
-
 
 
 /*Promesa para obtener los datos del archivo products.json en caso de conseguirlo inicia la función 
 insertarCarrito para crear las cards con los datos obtenidos en caso de no poder imprime por consola */
 const promesaJson = async() => {
-    const Testjson = "src/data/products.json";
+    const Testjson = 'src/data/products.json';
     $.getJSON(Testjson, function(respuesta, estado) {
-        if (estado === "success") {
+        if (estado === 'success') {
             const data = respuesta;
             insertarCards(data);
         }
@@ -60,7 +59,7 @@ const promesaJson = async() => {
 const insertarCards = data => {
     data.forEach(product => {
 
-        $("#cards").append(`<div class="card-container col d-flex justify-content-center mb-4">
+        $('#cards').append(`<div class="card-container col d-flex justify-content-center mb-4">
     <div class="card shadow mb-1 rounded">
     <img src="${product.image}" alt="..." class="card-img-top">
     <div class="card-body"><h5>${product.title}</h5>
@@ -114,11 +113,11 @@ const infParaCarrito = obj => {
 //Crea dinamicamente el carrito
 const insertarCarrito = () => {
     //Limpia los productos del carrito para que spread operator no nos cree duplicados
-    $("#items").empty();
+    $('#items').empty();
     //Insertamos dinamicamente los productos del carrito
     Object.values(carrito).forEach(product => {
 
-        $("#items").append(`<tr>
+        $('#items').append(`<tr>
         <th scope="row">${product.id}</th>
         <td>${product.title}</td>
         <td>${product.description}</td>
@@ -146,7 +145,7 @@ const insertarCarrito = () => {
 //Footer de la tabla donde se muestran los totales
 const insertarFooter = () => {
     //Limpia los productos del footer carrito para que spread operator no nos cree duplicados y elimina el botón de pagar en caso de ser creado
-    $("#total").empty();
+    $('#total').empty();
     $('#payment').empty();
     //Mediante un boolean comprobamos si el carrito está vacio en caso de ser verdadero insertamos el texto correspondiente
     if (Object.keys(carrito).length === 0) {
@@ -158,7 +157,7 @@ const insertarFooter = () => {
     //Definimos el precio final al igual que el paso anterior solo que en este caso multiplicamos la cantidad por el precio de cada producto del carrito
     const totalPrices = Object.values(carrito).reduce((i, { cantidad, price }) => i + cantidad * price, 0);
     //Inserta el total del producto
-    $("#total").append(`<th scope="row" colspan="2">Total productos</th>
+    $('#total').append(`<th scope="row" colspan="2">Total productos</th>
         <td></td>
         <td>${totalProductos}</td>
         <td>
@@ -169,16 +168,16 @@ const insertarFooter = () => {
         <td class="font-weight-bold">$ <span>${totalPrices}</span></td>`);
 
     //Inserta el botón pagar
-    $("#payment").append(`<th scope="row" colspan="2"></th>
+    $('#payment').append(`<th scope="row" colspan="2"></th>
         <td></td>
         <td></td>
         <td></td>
-        <td class="font-weight-bold"><button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#paymentModal" id="vaciar-carrito">
+        <td class="font-weight-bold"><button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#paymentModal" id="payment-btn">
         Pagar
     </button> </td>`);
 
     //Evento que toma cuando el usuario hace click en el boton
-    $("#vaciar-carrito").click(() => {
+    $('#vaciar-carrito').click(() => {
         //Vacia el carrito e inicia la función insertarCarrito para que identifique que no existen objs y los elimine el html
         carrito = {};
         insertarCarrito();
@@ -209,15 +208,16 @@ const footerPayment = (totalPrices) => {
 //Valor total cuotificado
 const totalCuotify = (totalPrices) => {
     $('#total-cuotify').empty();
+    const cuot = $('#cuotify option:selected').text();
+    parseInt(cuot);
     $('#total-cuotify').append(`<h5 class="w-50">Valor de la/s cuota/s:</h5>
-        <p class="h5 w-50">${totalPrices}</p>`);
-
+        <p class="h5 w-50">${Math.round(totalPrices / cuot)}</p>`);
     $('#cuotify').change(() => {
         $('#total-cuotify').empty();
         const cuot = $('#cuotify option:selected').text();
         parseInt(cuot);
         $('#total-cuotify').append(`<h5 class="w-50">Valor de la/s cuota/s:</h5>
-        <p class="h5 w-50">${totalPrices / cuot}</p>`);
+        <p class="h5 w-50">${Math.round(totalPrices / cuot)}</p>`);
     })
 }
 
@@ -258,7 +258,7 @@ const btnMasMenos = e => {
 //Función que filtra las cards agregando o quitando display none
 function searchBtn(input, selected) {
 
-    document.addEventListener("keyup", (e) => {
+    document.addEventListener('keyup', (e) => {
         if (e.target.matches(input)) {
             document.querySelectorAll(selected).forEach(element =>
                 //Para que sea Case sensitive le agregue el toLowerCase en ambos casos
@@ -275,23 +275,12 @@ function searchBtn(input, selected) {
 const localOrHome = (e) => {
     if (e.target.classList.contains('local')) {
         $('#home-form').empty();
-        $('#local-form').empty();
-        $('#local-form').append(`<input class="mb-1" type="text" name="name" placeholder="Nombre" required>
-        <input class="mb-1" type="text" name="surname" placeholder="Apellido" required>
-        <input class="mb-1" type="number" name="phone" placeholder="Teléfono" required>
-        <input class="mb-1" type="text" name="mail" placeholder="Email" required>`);
-
     } else if (e.target.classList.contains('home')) {
-        $('#local-form').empty();
         $('#home-form').empty();
-        $('#local-form').append(`<input class="mb-1" type="text" name="name" placeholder="Nombre" required>
-        <input class="mb-1" type="text" name="surname" placeholder="Apellido" required>
-        <input class="mb-1" type="number" name="phone" placeholder="Teléfono" required>
-        <input class="mb-1" type="text" name="mail" placeholder="Email" required>`);
-        $('#home-form').append(`<input class="mb-1" type="text" name="adress" placeholder="Dirección">
-        <input class="mb-1" type="number" name="cp" placeholder="Código postal">
-        <input class="mb-1" type="text" name="city" placeholder="Localidad">
-        <input class="mb-1" type="text" name="province" placeholder="Provincia">`);
+        $('#home-form').append(`<input class="home-adress mb-1" type="text" name="adress" placeholder="Dirección">
+        <input class="home-cp mb-1" type="number" name="cp" placeholder="Código postal">
+        <input class="home-city mb-1" type="text" name="city" placeholder="Localidad">
+        <input class="home-province mb-1" type="text" name="province" placeholder="Provincia">`);
     }
 }
 
@@ -301,25 +290,21 @@ const paymentMethod = () => {
         switch ($(this).text()) {
             case 'Tarjeta de crédito':
                 $('#bank-transfer').empty();
-                $('#cuotify').append(`<h5 class="w-50">Cantidad de cuotas:</h5>
-                <select class="w-50" id="cuotify-options">
-                    <option selected>1</option>
-                    <option>3</option>
-                    <option>6</option>
-                    <option>9</option>
-                    <option>12</option>
-                    <option>18</option>
-                </select>`);
+                $('#cuotify').removeClass('d-none');
                 $('#total-cuotify').removeClass('d-none');
+                $('#credit-debit-card').removeClass('d-none');
                 break;
             case 'Tarjeta de débito':
-                $('#cuotify').empty();
-                $('#total-cuotify').addClass('d-none');
+                $('#cuotify').addClass('d-none');
                 $('#bank-transfer').empty();
+                $('#credit-debit-card').removeClass('d-none');
+                $('#total-cuotify').addClass('d-none');
                 break;
             case 'Transferencia bancaria':
-                $('#cuotify').empty();
+                $('#cuotify').addClass('d-none');
                 $('#total-cuotify').addClass('d-none');
+                $('#credit-debit-card').addClass('d-none');
+                $('#bank-transfer').empty();
                 $('#bank-transfer').append(`<h5>CBU:</h5>
                 <p class="h5">001111010100101</p>
                 <h5>Alias:</h5>
@@ -332,3 +317,85 @@ const paymentMethod = () => {
 
     })
 };
+
+//Finalizar compra y mostrar el mensaje de confirmación por consolosa depende del método de pago y los datos ingreados
+const finalizarCompra = () => {
+
+    compraFinalizada = {};
+    let textoFinal = () => {
+        for (const [key, value] of Object.entries(compraFinalizada)) {
+            console.log(value.title + " " + value.description + " x " + value.cantidad + " unidad/es" + " con un valor de " + value.price * value.cantidad);
+        }
+    }
+
+    if (($('select option:selected').val() == "Retirar en el local") && ($('.local-name').val() != "") && ($('.local-surname').val() != "") && ($('.local-phone').val() != "") && ($('.local-email').val() != "")) {
+        compraFinalizada = JSON.parse(localStorage.getItem('carrito'));
+        $('#method option:selected').text(function() {
+            switch ($(this).text()) {
+                case 'Tarjeta de crédito':
+                    if ($('.card-name').val() != "" && $('.card-number').val() != "" && $('.card-cvc').val() != "") {
+                        console.log("Usted compró: ")
+                        textoFinal();
+                        console.log("A nombre de: " + $('.local-name').val() + " " + $('.local-surname').val() + "\nTeléfono: " + $('.local-phone').val() + "\nMail:  " + $('.local-email').val());
+                        console.log("A abonar con tarjeta de crédito a nombre de" + $('.card-name').val());
+                    } else { alert("Por favor revise los datos de la tarjeta") }
+                    break;
+                case 'Tarjeta de débito':
+                    if ($('.card-name').val() != "" && $('.card-number').val() != "" && $('.card-cvc').val() != "") {
+                        console.log("Usted compró: ")
+                        textoFinal();
+                        console.log("A nombre de: " + $('.local-name').val() + " " + $('.local-surname').val() + "\nTeléfono: " + $('.local-phone').val() + "\nMail:  " + $('.local-email').val());
+                        console.log("A abonar con tarjeta de débito a nombre de" + $('.card-name').val() + " " + $('.card-surname').val());
+                    } else { alert("Por favor revise los datos de la tarjeta") }
+                    break;
+                case 'Transferencia bancaria':
+                    console.log("Usted compró: ")
+                    textoFinal();
+                    console.log("A nombre de: " + $('.local-name').val() + " " + $('.local-surname').val() + "\nTeléfono: " + $('.local-phone').val() + "\nMail:  " + $('.local-email').val());
+                    console.log("A transferir al CBU: 001111010100101\nAlias: poroto.casa.calabaza\nRecuerde enviar el comprobante de pago al email ej@ejemplo.com")
+                    break;
+                default:
+                    alert("Por favor seleccione un método de pago")
+                    break;
+            }
+
+        })
+
+    } else if (($('select option:selected').val() == "Recibir en domicilio") && ($('.local-name').val() != "") && ($('.local-surname').val() != "") && ($('.local-phone').val() != "") && ($('.local-email').val() != "") && ($('.home-adress').val() != "") && ($('.home-cp').val() != "") && ($('.home-city').val() != "") && ($('.home-province').val() != "")) {
+        compraFinalizada = JSON.parse(localStorage.getItem('carrito'));
+        $('#method option:selected').text(function() {
+            switch ($(this).text()) {
+                case 'Tarjeta de crédito':
+                    if ($('.card-name').val() != "" && $('.card-number').val() != "" && $('.card-cvc').val() != "") {
+                        console.log("Usted compró: ")
+                        textoFinal();
+                        console.log("A nombre de: " + $('.local-name').val() + " " + $('.local-surname').val() + "\nTeléfono: " + $('.local-phone').val() + "\nMail:  " + $('.local-email').val());
+                        console.log("Recibirá en el domicilio: " + $('.home-adress').val() + "\nLocalidad: " + $('.home-city').val() + "\nProvincia: " + $('.home-province').val() + "\nCódigo Postal: " + $('.home-cp').val());
+                        console.log("A abonar con tarjeta de crédito a nombre de" + $('.card-name').val());
+
+                    } else { alert("Por favor revise los datos de la tarjeta") }
+                    break;
+                case 'Tarjeta de débito':
+                    if ($('.card-name').val() != "" && $('.card-number').val() != "" && $('.card-cvc').val() != "") {
+                        console.log("Usted compró: ")
+                        textoFinal();
+                        console.log("A nombre de: " + $('.local-name').val() + " " + $('.local-surname').val() + "\nTeléfono: " + $('.local-phone').val() + "\nMail:  " + $('.local-email').val());
+                        console.log("Recibirá en el domicilio: " + $('.home-adress').val() + "\nLocalidad: " + $('.home-city').val() + "\nProvincia: " + $('.home-province').val() + "\nCódigo Postal: " + $('.home-cp').val());
+                        console.log("A abonar con tarjeta de débito a nombre de" + $('.card-name').val());
+                    } else { alert("Por favor revise los datos de la tarjeta") }
+                    break;
+                case 'Transferencia bancaria':
+                    console.log("Usted compró: ")
+                    textoFinal();
+                    console.log("A nombre de: " + $('.local-name').val() + " " + $('.local-surname').val() + "\nTeléfono: " + $('.local-phone').val() + "\nMail:  " + $('.local-email').val());
+                    console.log("Recibirá en el domicilio: " + $('.home-adress').val() + "\nLocalidad: " + $('.home-city').val() + "\nProvincia: " + $('.home-province').val() + "\nCódigo Postal: " + $('.home-cp').val());
+                    console.log("A transferir al CBU: 001111010100101\nAlias: poroto.casa.calabaza\nRecuerde enviar el comprobante de pago al email ej@ejemplo.com")
+                    break;
+                default:
+                    alert("Por favor seleccione un método de pago");
+                    break;
+            }
+
+        })
+    } else(alert('Debes completar todos los campos de contacto'))
+}
