@@ -31,7 +31,8 @@ header,
 
 .hide,
 .remove,
-.remove-all {
+.remove-all,
+.final-alert {
     display: none;
 }
 

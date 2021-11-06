@@ -339,6 +339,9 @@ const finalizarCompra = () => {
             switch ($(this).text()) {
                 case 'Tarjeta de crédito':
                     if ($('.card-name').val() != "" && $('.card-number').val() != "" && $('.card-cvc').val() != "") {
+                        $('.final-alert').slideDown(1500, function() {
+                            $('.final-alert').fadeOut(1500);
+                        });
                         console.log("Usted compró: ")
                         textoFinal();
                         console.log("A nombre de: " + $('.local-name').val() + " " + $('.local-surname').val() + "\nTeléfono: " + $('.local-phone').val() + "\nMail:  " + $('.local-email').val());
@@ -347,6 +350,9 @@ const finalizarCompra = () => {
                     break;
                 case 'Tarjeta de débito':
                     if ($('.card-name').val() != "" && $('.card-number').val() != "" && $('.card-cvc').val() != "") {
+                        $('.final-alert').slideDown(1500, function() {
+                            $('.final-alert').fadeOut(1500);
+                        });
                         console.log("Usted compró: ")
                         textoFinal();
                         console.log("A nombre de: " + $('.local-name').val() + " " + $('.local-surname').val() + "\nTeléfono: " + $('.local-phone').val() + "\nMail:  " + $('.local-email').val());
@@ -354,6 +360,9 @@ const finalizarCompra = () => {
                     } else { alert("Por favor revise los datos de la tarjeta") }
                     break;
                 case 'Transferencia bancaria':
+                    $('.final-alert').slideDown(1500, function() {
+                        $('.final-alert').fadeOut(1500);
+                    });
                     console.log("Usted compró: ")
                     textoFinal();
                     console.log("A nombre de: " + $('.local-name').val() + " " + $('.local-surname').val() + "\nTeléfono: " + $('.local-phone').val() + "\nMail:  " + $('.local-email').val());
@@ -372,6 +381,9 @@ const finalizarCompra = () => {
             switch ($(this).text()) {
                 case 'Tarjeta de crédito':
                     if ($('.card-name').val() != "" && $('.card-number').val() != "" && $('.card-cvc').val() != "") {
+                        $('.final-alert').slideDown(1500, function() {
+                            $('.final-alert').fadeOut(1500);
+                        });
                         console.log("Usted compró: ")
                         textoFinal();
                         console.log("A nombre de: " + $('.local-name').val() + " " + $('.local-surname').val() + "\nTeléfono: " + $('.local-phone').val() + "\nMail:  " + $('.local-email').val());
@@ -382,6 +394,9 @@ const finalizarCompra = () => {
                     break;
                 case 'Tarjeta de débito':
                     if ($('.card-name').val() != "" && $('.card-number').val() != "" && $('.card-cvc').val() != "") {
+                        $('.final-alert').slideDown(1500, function() {
+                            $('.final-alert').fadeOut(1500);
+                        });
                         console.log("Usted compró: ")
                         textoFinal();
                         console.log("A nombre de: " + $('.local-name').val() + " " + $('.local-surname').val() + "\nTeléfono: " + $('.local-phone').val() + "\nMail:  " + $('.local-email').val());
@@ -390,11 +405,15 @@ const finalizarCompra = () => {
                     } else { alert("Por favor revise los datos de la tarjeta") }
                     break;
                 case 'Transferencia bancaria':
+                    $('.final-alert').slideDown(1500, function() {
+                        $('.final-alert').fadeOut(1500);
+                    });
                     console.log("Usted compró: ")
                     textoFinal();
                     console.log("A nombre de: " + $('.local-name').val() + " " + $('.local-surname').val() + "\nTeléfono: " + $('.local-phone').val() + "\nMail:  " + $('.local-email').val());
                     console.log("Recibirá en el domicilio: " + $('.home-adress').val() + "\nLocalidad: " + $('.home-city').val() + "\nProvincia: " + $('.home-province').val() + "\nCódigo Postal: " + $('.home-cp').val());
                     console.log("A transferir al CBU: 001111010100101\nAlias: poroto.casa.calabaza\nRecuerde enviar el comprobante de pago al email ej@ejemplo.com")
+                    setTimeout(greet, 2000);
                     break;
                 default:
                     alert("Por favor seleccione un método de pago");

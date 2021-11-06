@@ -138,4 +138,9 @@ $('#paymentModal').append(`                <div class="modal-dialog modal-dialog
         <button type="button" class="btn btn-outline-success" id="submit-payment">Confirmar compra</button>
     </div>
 </div>
+<div class="alert container position-fixed alert-success text-center final-alert" role="alert">
+<div>
+    ¡Compra realizada con exito!
+</div>
+</div>
 </div>`);
