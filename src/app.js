@@ -326,6 +326,11 @@ const finalizarCompra = () => {
         for (const [key, value] of Object.entries(compraFinalizada)) {
             console.log(value.title + " " + value.description + " x " + value.cantidad + " unidad/es" + " con un valor de " + value.price * value.cantidad);
         }
+        // Definimos la cantidad total de productos que va a ser igual a la suma de la columna cantidad de cada producto del carrito
+        const totalProductos = Object.values(compraFinalizada).reduce((i, { cantidad }) => i + cantidad, 0);
+        //Definimos el precio final al igual que el paso anterior solo que en este caso multiplicamos la cantidad por el precio de cada producto del carrito
+        const totalPrecios = Object.values(compraFinalizada).reduce((i, { cantidad, price }) => i + cantidad * price, 0);
+        console.log("En total adquirió: " + totalProductos + " productos por un valor total de: " + totalPrecios);
     }
 
     if (($('select option:selected').val() == "Retirar en el local") && ($('.local-name').val() != "") && ($('.local-surname').val() != "") && ($('.local-phone').val() != "") && ($('.local-email').val() != "")) {
